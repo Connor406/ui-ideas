@@ -15,7 +15,8 @@ const Mountain = () => {
       animateGrass.start({
         pathLength: [0, 1],
         opacity: [0, 0, 0, 0.2, 0.4, 0.6, 0.8, 1],
-        stroke: ["none", "#ebae2b"],
+        // stroke: ["none", "#ebae2b"],
+        stroke: ["none", "#66d4ff", "#f266ff"],
         strokeWidth: [12, 10, 5, 0],
         transition: { duration: 3 },
         scaleX: [1.2, 1],
