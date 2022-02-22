@@ -1,30 +1,37 @@
-import { Box, Button } from "@chakra-ui/react"
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { gsap } from "gsap/dist/gsap"
+import { MotionPathPlugin } from "gsap/dist/MotionPathPlugin"
+import { Box } from "@chakra-ui/react"
+import { useEffect, useRef } from "react"
 import { useRive } from "rive-react"
+import { useInView } from "react-intersection-observer"
 import Block from "./Block"
 import Mountain from "./Mountain"
+import { UseResponsiveCheck } from "@/hooks/useResponsiveCheck"
+gsap.registerPlugin(MotionPathPlugin)
 
 const Lumberjack = ({ domContent, positionY }) => {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const { rive, RiveComponent } = useRive({
-    src: "/lumberjack.riv",
-    autoplay: false,
-  })
+  const lumberjackRef = useRef()
+  const { ref, inView } = useInView({ threshold: 0 })
+  const { RiveComponent } = useRive({ src: "/lumberjack.riv", autoplay: true })
 
   useEffect(() => {
-    rive && isPlaying ? rive?.play() : rive?.pause()
-  }, [isPlaying])
+    inView &&
+      gsap.to(lumberjackRef.current, {
+        duration: 15,
+        repeat: 5,
+        ease: "power1.inOut",
+        motionPath: {
+          path: "#walking",
+          autoRotate: true,
+        },
+      })
+  }, [inView])
 
   return (
     <Block bgColor="#571ec1" domContent={domContent} positionY={positionY}>
-      <Box pos="absolute" zIndex={2}>
-        <RiveComponent
-          // rive.play()
-          onMouseLeave={() => rive && rive.pause()}
-        />
-
-        <Button onClick={() => setIsPlaying(!isPlaying)}>Click Me</Button>
+      <Box pos="absolute" ref={lumberjackRef} zIndex={2}>
+        <Box ref={ref} />
+        <RiveComponent />
       </Box>
       <Mountain />
     </Block>

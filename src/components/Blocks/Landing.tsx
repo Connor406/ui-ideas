@@ -15,8 +15,15 @@ function Landing({ domContent, positionY }: Props) {
       positionY={positionY}
       scale={1.6}
     >
-      <Text fontSize="10rem" textAlign="center" width="100%" margin="0 auto" color="#fff">
-        Safety first.
+      <Text
+        fontSize="10rem"
+        fontWeight="bold"
+        textAlign="center"
+        width="100%"
+        margin="0 auto"
+        color="#fff"
+      >
+        Safety First<span style={{ color: "black" }}>.</span>
       </Text>
     </Block>
   )
